@@ -1,12 +1,73 @@
 from collections import namedtuple
-
+from operator import itemgetter as _itemgetter
 from ..exceptions import LocationParseError
 
 
 url_attrs = ['scheme', 'auth', 'host', 'port', 'path', 'query', 'fragment']
 
+class UrlT(tuple):
+    'Url(scheme, auth, host, port, path, query, fragment)'
 
-class Url(namedtuple('Url', url_attrs)):
+    __slots__ = ()
+
+    _fields = ('scheme', 'auth', 'host', 'port', 'path', 'query', 'fragment')
+
+    def __new__(_cls, scheme, auth, host, port, path, query, fragment):
+        'Create new instance of Url(scheme, auth, host, port, path, query, fragment)'
+        return tuple.__new__(_cls, (scheme, auth, host, port, path, query, fragment))
+
+    @classmethod
+    def _make(cls, iterable, new=tuple.__new__, len=len):
+        'Make a new Url object from a sequence or iterable'
+        result = new(cls, iterable)
+        if len(result) != 7:
+            raise TypeError('Expected 7 arguments, got %d' % len(result))
+        return result
+
+    def __repr__(self):
+        'Return a nicely formatted representation string'
+        return 'Url(scheme=%r, auth=%r, host=%r, port=%r, path=%r, query=%r, fragment=%r)' % self
+
+    def _asdict(self):
+        'Return a new OrderedDict which maps field names to their values'
+        return OrderedDict(zip(self._fields, self))
+
+    def _replace(_self, **kwds):
+        'Return a new Url object replacing specified fields with new values'
+        result = _self._make(map(kwds.pop, ('scheme', 'auth', 'host', 'port', 'path', 'query', 'fragment'), _self))
+        if kwds:
+            raise ValueError('Got unexpected field names: %r' % kwds.keys())
+        return result
+
+    def __getnewargs__(self):
+        'Return self as a plain tuple.  Used by copy and pickle.'
+        return tuple(self)
+
+    __dict__ = property(_asdict)
+
+    def __getstate__(self):
+        'Exclude the OrderedDict from pickling'
+        pass
+
+    scheme = property(_itemgetter(0), doc='Alias for field number 0')
+
+    auth = property(_itemgetter(1), doc='Alias for field number 1')
+
+    host = property(_itemgetter(2), doc='Alias for field number 2')
+
+    port = property(_itemgetter(3), doc='Alias for field number 3')
+
+    path = property(_itemgetter(4), doc='Alias for field number 4')
+
+    query = property(_itemgetter(5), doc='Alias for field number 5')
+
+    fragment = property(_itemgetter(6), doc='Alias for field number 6')
+
+
+
+# Pyston change:
+class Url(UrlT):
+#class Url(namedtuple('Url', url_attrs)):
     """
     Datastructure for representing an HTTP URL. Used as a return value for
     :func:`parse_url`.

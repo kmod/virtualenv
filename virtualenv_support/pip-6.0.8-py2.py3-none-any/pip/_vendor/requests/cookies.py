@@ -272,8 +272,23 @@ class RequestsCookieJar(cookielib.CookieJar, collections.MutableMapping):
         """Dict-like __getitem__() for compatibility with client code. Throws exception
         if there are more than one cookie with name. In that case, use the more
         explicit get() method instead. Caution: operation is O(n), not O(1)."""
+    
+        #return self._find_no_duplicates(name)
+        print name
+        domain=None
+        path=None
+        toReturn = None
+        for cookie in iter(self):
+            if cookie.name == name:
+                if domain is None or cookie.domain == domain:
+                    if path is None or cookie.path == path:
+                        if toReturn is not None:  # if there are multiple cookies that meet passed in criteria
+                            raise CookieConflictError('There are multiple cookies with name, %r' % (name))
+                        toReturn = cookie.value  # we will eventually return this as long as no cookie conflict
 
-        return self._find_no_duplicates(name)
+        if toReturn:
+            return toReturn
+        raise KeyError('name=%r, domain=%r, path=%r' % (name, domain, path))
 
     def __setitem__(self, name, value):
         """Dict-like __setitem__ for compatibility with client code. Throws exception

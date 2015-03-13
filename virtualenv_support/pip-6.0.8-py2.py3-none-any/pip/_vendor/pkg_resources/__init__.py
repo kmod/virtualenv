@@ -1561,6 +1561,9 @@ class NullProvider:
         script_text = script_text.replace('\r', '\n')
         script_filename = self._fn(self.egg_info, script)
         namespace['__file__'] = script_filename
+        
+        # pyston change
+        """
         if os.path.exists(script_filename):
             source = open(script_filename).read()
             code = compile(source, script_filename, 'exec')
@@ -1572,7 +1575,9 @@ class NullProvider:
             )
             script_code = compile(script_text, script_filename,'exec')
             exec(script_code, namespace, namespace)
-
+        """
+        print "Not implemented!!!!"
+        raise NotImplemented
     def _has(self, path):
         raise NotImplementedError(
             "Can't perform this operation for unregistered loader type"
@@ -1689,12 +1694,17 @@ class ZipManifests(dict):
 
     load = build
 
+def mynamedtuple(*args):
+    return lambda *args: args
+
 
 class MemoizedZipManifests(ZipManifests):
     """
     Memoized zipfile manifests.
     """
-    manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
+    # Pyston change:
+    #manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
+    manifest_mod = mynamedtuple('manifest_mod', 'manifest mtime')
 
     def load(self, path):
         """
@@ -2138,14 +2148,14 @@ def declare_namespace(packageName):
 
 def fixup_namespace_packages(path_item, parent=None):
     """Ensure that previously-declared namespace packages include path_item"""
-    imp.acquire_lock()
+    print "imp.acquire_lock()"
     try:
         for package in _namespace_packages.get(parent,()):
             subpath = _handle_ns(package, path_item)
             if subpath:
                 fixup_namespace_packages(subpath, package)
     finally:
-        imp.release_lock()
+        print "imp.release_lock()"
 
 def file_ns_handler(importer, path_item, packageName, module):
     """Compute an ns-package subpath for a filesystem or zipfile importer"""
@@ -2621,7 +2631,15 @@ class Distribution(object):
         # p is the spot where we found or inserted loc; now remove duplicates
         while True:
             try:
-                np = npath.index(nloc, p+1)
+                print type(npath), npath, nloc, p+1
+                _i = p+1
+                while _i < len(npath)+1:
+                    if npath[_i] == nloc:
+                        np = _i
+                    _i = _i +1
+                #np = npath.index(nloc, p+1)
+            except IndexError:
+                break
             except ValueError:
                 break
             else:
@@ -2822,7 +2840,7 @@ def parse_requirements(strs):
         yield Requirement(project_name, specs, extras)
 
 
-class Requirement:
+class Requirement(object):
     def __init__(self, project_name, specs, extras):
         """DO NOT CALL THIS UNDOCUMENTED METHOD; use Requirement.parse()!"""
         self.unsafe_name, project_name = project_name, safe_name(project_name)
@@ -2881,8 +2899,12 @@ class Requirement:
 def _get_mro(cls):
     """Get an mro for a type or classic class"""
     if not isinstance(cls, type):
-        class cls(cls, object): pass
-        return cls.__mro__[1:]
+        # class _cls(cls, object): pass
+        # class _cls(object, cls): pass
+        # return _cls.__mro__[1:]
+        class _cls(object, cls): pass
+        #print (_cls.__mro__[2], _cls.__mro__[1])
+        return (_cls.__mro__[2], _cls.__mro__[1])
     return cls.__mro__
 
 def _find_adapter(registry, ob):

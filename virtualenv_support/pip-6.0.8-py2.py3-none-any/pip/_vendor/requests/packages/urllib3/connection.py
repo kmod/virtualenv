@@ -221,7 +221,8 @@ class VerifiedHTTPSConnection(HTTPSConnection):
             # Override the host with the one we're requesting data from.
             hostname = self._tunnel_host
 
-        is_time_off = datetime.date.today() < RECENT_DATE
+        #is_time_off = datetime.date.today() < RECENT_DATE
+        is_time_off = False
         if is_time_off:
             warnings.warn((
                 'System time is way off (before {0}). This will probably '

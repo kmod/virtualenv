@@ -11,7 +11,7 @@ import io
 import json
 import logging
 import os
-import py_compile
+#import py_compile
 import re
 import shutil
 import socket
@@ -28,7 +28,8 @@ import time
 
 from . import DistlibException
 from .compat import (string_types, text_type, shutil, raw_input, StringIO,
-                     cache_from_source, urlopen, httplib, xmlrpclib, splittype,
+#                     cache_from_source, urlopen, httplib, xmlrpclib, splittype,
+                     cache_from_source, urlopen, httplib, splittype,
                      HTTPHandler, HTTPSHandler as BaseHTTPSHandler,
                      BaseConfigurator, valid_ident, Container, configparser,
                      URLError, match_hostname, CertificateError, ZipFile)
@@ -1353,7 +1354,7 @@ if _ver_info == (2, 6):
                 port = None
             self._setup(self._connection_class(host, port, **kwargs))
 
-
+"""
 class Transport(xmlrpclib.Transport):
     def __init__(self, timeout, use_datetime=0):
         self.timeout = timeout
@@ -1406,7 +1407,7 @@ class ServerProxy(xmlrpclib.ServerProxy):
             kwargs['transport'] = t = tcls(timeout, use_datetime=use_datetime)
             self.transport = t
         xmlrpclib.ServerProxy.__init__(self, uri, **kwargs)
-
+"""
 #
 # CSV functionality. This is provided because on 2.x, the csv module can't
 # handle Unicode. However, we need to deal with Unicode in e.g. RECORD files.

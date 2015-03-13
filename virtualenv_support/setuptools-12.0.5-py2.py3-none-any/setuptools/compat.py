@@ -30,8 +30,10 @@ if PY2:
     from urlparse import urlparse, urlunparse, urljoin, urlsplit, urlunsplit
     filterfalse = itertools.ifilterfalse
 
-    exec("""def reraise(tp, value, tb=None):
-    raise tp, value, tb""")
+    def reraise(tp, value, tb=None):
+        raise tp, value, tb
+    #exec("""def reraise(tp, value, tb=None):
+    #raise tp, value, tb""")
 
 if PY3:
     basestring = str

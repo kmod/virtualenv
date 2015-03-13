@@ -672,9 +672,8 @@ else:
         exec("""exec _code_ in _globs_, _locs_""")
 
 
-    exec_("""def reraise(tp, value, tb=None):
-    raise tp, value, tb
-""")
+    def reraise(tp, value, tb=None):
+        raise tp, value, tb
 
 
 if sys.version_info[:2] == (3, 2):

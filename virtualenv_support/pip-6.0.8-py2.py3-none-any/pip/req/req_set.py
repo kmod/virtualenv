@@ -417,6 +417,7 @@ class RequirementSet(object):
                     )
 
                 if is_wheel:
+                    print "Location:", location
                     dist = list(
                         pkg_resources.find_distributions(location)
                     )[0]

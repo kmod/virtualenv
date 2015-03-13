@@ -58,6 +58,7 @@ class VendorAlias(object):
                     m for m in sys.meta_path
                     if not isinstance(m, VendorAlias)
                 ]
+                print "-- importing", name
                 __import__(name)
                 module = sys.modules[name]
             finally:
@@ -75,6 +76,7 @@ class VendorAlias(object):
             # "real" name.
             real_name = name[len(self._vendor_pkg):]
             try:
+                print real_name, sys.path
                 __import__(real_name)
                 module = sys.modules[real_name]
             except ImportError:

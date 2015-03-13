@@ -52,6 +52,8 @@ def retry(*dargs, **dkw):
 
         return wrap
 
+def round(x):
+    return x
 
 class Retrying(object):
 
@@ -186,11 +188,14 @@ class Retrying(object):
     def should_reject(self, attempt):
         reject = False
         if attempt.has_exception:
-            reject |= self._retry_on_exception(attempt.value[1])
+            reject = reject | self._retry_on_exception(attempt.value[1])
+            #reject |= self._retry_on_exception(attempt.value[1])
         else:
-            reject |= self._retry_on_result(attempt.value)
+            reject = reject | self._retry_on_result(attempt.value)
+            #reject |= self._retry_on_result(attempt.value)
 
         return reject
+
 
     def call(self, fn, *args, **kwargs):
         start_time = int(round(time.time() * 1000))

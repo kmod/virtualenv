@@ -73,6 +73,7 @@ def moduleFactoryFactory(factory):
         if name in moduleCache:
             return moduleCache[name]
         else:
+            print "type", type(name), name
             mod = ModuleType(name)
             objs = factory(baseModule, *args, **kwargs)
             mod.__dict__.update(objs)

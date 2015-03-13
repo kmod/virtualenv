@@ -24,11 +24,52 @@ __all__ = [
     "parse", "Version", "LegacyVersion", "InvalidVersion", "VERSION_PATTERN"
 ]
 
+# Pyston change
+#_Version = collections.namedtuple(
+#    "_Version",
+#    ["epoch", "release", "dev", "pre", "post", "local"],
+#)
+from operator import itemgetter as _itemgetter
+class _Version(tuple):
+    '_Version(epoch, release, dev, pre, post, local)'
+    __slots__ = ()
+    _fields = ('epoch', 'release', 'dev', 'pre', 'post', 'local')
+    def __new__(_cls, epoch, release, dev, pre, post, local):
+        'Create new instance of _Version(epoch, release, dev, pre, post, local)'
+        return tuple.__new__(_cls, (epoch, release, dev, pre, post, local))
+    @classmethod
+    def _make(cls, iterable, new=tuple.__new__, len=len):
+        'Make a new _Version object from a sequence or iterable'
+        result = new(cls, iterable)
+        if len(result) != 6:
+            raise TypeError('Expected 6 arguments, got %d' % len(result))
+        return result
+    def __repr__(self):
+        'Return a nicely formatted representation string'
+        return '_Version(epoch=%r, release=%r, dev=%r, pre=%r, post=%r, local=%r)' % self
+    def _asdict(self):
+        'Return a new OrderedDict which maps field names to their values'
+        return collections.OrderedDict(zip(self._fields, self))
+    def _replace(_self, **kwds):
+        'Return a new _Version object replacing specified fields with new values'
+        result = _self._make(map(kwds.pop, ('epoch', 'release', 'dev', 'pre', 'post', 'local'), _self))
+        if kwds:
+            raise ValueError('Got unexpected field names: %r' % kwds.keys())
+        return result
+    def __getnewargs__(self):
+        'Return self as a plain tuple.  Used by copy and pickle.'
+        return tuple(self)
+    __dict__ = property(_asdict)
+    def __getstate__(self):
+        'Exclude the OrderedDict from pickling'
+        pass
 
-_Version = collections.namedtuple(
-    "_Version",
-    ["epoch", "release", "dev", "pre", "post", "local"],
-)
+    epoch = property(_itemgetter(0), doc='Alias for field number 0')
+    release = property(_itemgetter(1), doc='Alias for field number 1')
+    dev = property(_itemgetter(2), doc='Alias for field number 2')
+    pre = property(_itemgetter(3), doc='Alias for field number 3')
+    post = property(_itemgetter(4), doc='Alias for field number 4')
+    local = property(_itemgetter(5), doc='Alias for field number 5')
 
 
 def parse(version):
