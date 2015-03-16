@@ -29,8 +29,8 @@ class build_py(orig.build_py, Mixin2to3):
         self.package_data = self.distribution.package_data
         self.exclude_package_data = (self.distribution.exclude_package_data or
                                      {})
-        if 'data_files' in self.__dict__:
-            del self.__dict__['data_files']
+        #if 'data_files' in self.__dict__:
+        #    del self.__dict__['data_files']
         self.__updated_files = []
         self.__doctests_2to3 = []
 
@@ -71,6 +71,7 @@ class build_py(orig.build_py, Mixin2to3):
         """Generate list of '(package,src_dir,build_dir,filenames)' tuples"""
         self.analyze_manifest()
         data = []
+        print "_get_data_files"
         for package in self.packages or ():
             # Locate package source directory
             src_dir = self.get_package_dir(package)
@@ -85,6 +86,7 @@ class build_py(orig.build_py, Mixin2to3):
             filenames = [
                 file[plen:] for file in self.find_data_files(package, src_dir)
             ]
+            print "appending", package, src_dir, build_dir, filenames
             data.append((package, src_dir, build_dir, filenames))
         return data
 
@@ -206,7 +208,7 @@ class build_py(orig.build_py, Mixin2to3):
                     files, os.path.join(src_dir, convert_path(pattern))
                 )
             )
-        bad = dict.fromkeys(bad)
+        bad = dict().fromkeys(bad)
         seen = {}
         return [
             f for f in files if f not in bad

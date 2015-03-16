@@ -15,7 +15,7 @@ from distutils.errors import (DistutilsOptionError, DistutilsPlatformError,
 
 from setuptools.depends import Require
 from setuptools.compat import basestring, PY2
-from setuptools import windows_support
+#from setuptools import windows_support
 import pkg_resources
 
 packaging = pkg_resources.packaging

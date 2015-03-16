@@ -359,7 +359,7 @@ except ImportError:
 class DirectorySandbox(AbstractSandbox):
     """Restrict operations to a single subdirectory - pseudo-chroot"""
 
-    write_ops = dict.fromkeys([
+    write_ops = dict().fromkeys([
         "open", "chmod", "chown", "mkdir", "remove", "unlink", "rmdir",
         "utime", "lchown", "chroot", "mkfifo", "mknod", "tempnam",
     ])

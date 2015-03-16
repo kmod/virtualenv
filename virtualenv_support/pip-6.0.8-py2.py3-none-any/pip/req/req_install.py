@@ -390,11 +390,11 @@ def replacement_run(self):
             writer(self, ep.name, os.path.join(self.egg_info,ep.name))
     self.find_sources()
 egg_info.egg_info.run = replacement_run
-exec(compile(
-    getattr(tokenize, 'open', open)(__file__).read().replace('\\r\\n', '\\n'),
-    __file__,
-    'exec'
-))
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
+if 'setup.py' not in __file__:
+ raise NotImplemented
+import setup.py
 """
 
     def egg_info_data(self, filename):

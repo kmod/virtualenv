@@ -882,7 +882,6 @@ class HTMLPage(object):
                 },
             )
             """
-            print "resp1:", resp.content, session, type(session)
             resp.raise_for_status()
 
             # The check for archives above only works if the url ends with
@@ -898,7 +897,6 @@ class HTMLPage(object):
                     content_type,
                 )
                 return
-            print "resp2:", resp.content
             inst = cls(
                 resp.content, resp.url, resp.headers,
                 trusted=link.trusted,

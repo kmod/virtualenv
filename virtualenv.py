@@ -948,6 +948,7 @@ def install_wheel(project_names, py_executable, search_dirs=None):
     wheels = find_wheels(['setuptools', 'pip'], search_dirs)
     pythonpath = os.pathsep.join(wheels)
     findlinks = ' '.join(search_dirs)
+    pythonpath = pythonpath.replace(".whl", "/")
 
     cmd = [
         py_executable, '-c',
