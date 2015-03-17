@@ -204,7 +204,7 @@ _state_vars = {}
 
 def _declare_state(vartype, **kw):
     globals().update(kw)
-    _state_vars.update(dict().fromkeys(kw, vartype))
+    _state_vars.update(dict.fromkeys(kw, vartype))
 
 def __getstate__():
     state = {}
@@ -848,7 +848,7 @@ class WorkingSet(object):
 
                 else:
                     list(map(shadow_set.add, resolvees))
-                    distributions.update(dict().fromkeys(resolvees))
+                    distributions.update(dict.fromkeys(resolvees))
 
                     # success, no need to try any more versions of this project
                     break
@@ -2148,14 +2148,14 @@ def declare_namespace(packageName):
 
 def fixup_namespace_packages(path_item, parent=None):
     """Ensure that previously-declared namespace packages include path_item"""
-    print "imp.acquire_lock()"
+    imp.acquire_lock()
     try:
         for package in _namespace_packages.get(parent,()):
             subpath = _handle_ns(package, path_item)
             if subpath:
                 fixup_namespace_packages(subpath, package)
     finally:
-        print "imp.release_lock()"
+        imp.release_lock()
 
 def file_ns_handler(importer, path_item, packageName, module):
     """Compute an ns-package subpath for a filesystem or zipfile importer"""
@@ -2654,7 +2654,7 @@ class Distribution(object):
             # ignore the inevitable setuptools self-conflicts  :(
             return
 
-        nsp = dict().fromkeys(self._get_metadata('namespace_packages.txt'))
+        nsp = dict.fromkeys(self._get_metadata('namespace_packages.txt'))
         loc = normalize_path(self.location)
         for modname in self._get_metadata('top_level.txt'):
             if (modname not in sys.modules or modname in nsp

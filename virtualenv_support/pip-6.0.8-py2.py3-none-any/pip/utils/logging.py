@@ -49,8 +49,7 @@ class IndentingFormatter(logging.Formatter):
         formatted = logging.Formatter.format(self, record)
         formatted = "".join([
             (" " * get_indentation()) + line
-            for line in formatted.split("\n")
-            #for line in formatted.splitlines(True)
+            for line in formatted.splitlines(True)
         ])
         return formatted
 

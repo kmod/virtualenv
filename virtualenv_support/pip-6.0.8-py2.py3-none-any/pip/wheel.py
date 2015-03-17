@@ -131,7 +131,6 @@ def get_entrypoints(filename):
 def move_wheel_files(name, req, wheeldir, user=False, home=None, root=None,
                      pycompile=True, scheme=None, isolated=False):
     """Install a wheel"""
-    print "move_wheel_files", name, req, wheeldir, user, home, root, scheme
 
     if not scheme:
         scheme = distutils_scheme(

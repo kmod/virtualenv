@@ -340,8 +340,6 @@ class PipSession(requests.Session):
         else:
             secure_adapter = HTTPAdapter(max_retries=retries)
 
-        print "PipSession::__init__", cache
-
         # Our Insecure HTTPAdapter disables HTTPS validation. It does not
         # support caching (see above) so we'll use it for all http:// URLs as
         # well as any https:// host that we've marked as ignoring TLS errors
@@ -360,7 +358,6 @@ class PipSession(requests.Session):
             self.mount("https://{0}/".format(host), insecure_adapter)
 
     def request(self, method, url, *args, **kwargs):
-        print "PipSession::request:", url
         # Allow setting a default timeout on a session
         kwargs.setdefault("timeout", self.timeout)
 
@@ -406,7 +403,6 @@ def get_file_content(url, comes_from=None, session=None):
                 return resp.url, resp.content
     try:
         with open(url) as f:
-            print "with open", url, f
             content = f.read()
     except IOError as exc:
         raise InstallationError(

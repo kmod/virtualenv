@@ -554,7 +554,7 @@ except ImportError: # pragma: no cover
         @classmethod
         def fromkeys(cls, iterable, *args):
             'Create a ChainMap with a single dict created from the iterable.'
-            return cls(dict().fromkeys(iterable, *args))
+            return cls(dict.fromkeys(iterable, *args))
 
         def copy(self):
             'New ChainMap or subclass with a new copy of maps[0] and refs to maps[1:]'

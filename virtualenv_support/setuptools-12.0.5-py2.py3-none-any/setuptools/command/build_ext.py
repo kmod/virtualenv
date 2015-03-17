@@ -192,7 +192,7 @@ class build_ext(_build_ext):
         # XXX this should check to ensure the lib is actually being built
         # XXX as dynamic, and not just using a locally-found version or a
         # XXX static-compiled version
-        libnames = dict().fromkeys([lib._full_name for lib in self.shlibs])
+        libnames = dict.fromkeys([lib._full_name for lib in self.shlibs])
         pkg = '.'.join(ext._full_name.split('.')[:-1] + [''])
         return any(pkg + libname in libnames for libname in ext.libraries)
 

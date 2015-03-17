@@ -76,7 +76,6 @@ class VendorAlias(object):
             # "real" name.
             real_name = name[len(self._vendor_pkg):]
             try:
-                print real_name, sys.path
                 __import__(real_name)
                 module = sys.modules[real_name]
             except ImportError:

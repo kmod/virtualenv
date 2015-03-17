@@ -208,7 +208,7 @@ class build_py(orig.build_py, Mixin2to3):
                     files, os.path.join(src_dir, convert_path(pattern))
                 )
             )
-        bad = dict().fromkeys(bad)
+        bad = dict.fromkeys(bad)
         seen = {}
         return [
             f for f in files if f not in bad

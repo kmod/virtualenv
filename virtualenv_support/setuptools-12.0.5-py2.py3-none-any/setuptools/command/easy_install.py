@@ -1504,7 +1504,7 @@ class PthDistributions(Environment):
     def _load(self):
         self.paths = []
         saw_import = False
-        seen = dict().fromkeys(self.sitedirs)
+        seen = dict.fromkeys(self.sitedirs)
         if os.path.isfile(self.filename):
             f = open(self.filename, 'rt')
             for line in f:

@@ -567,15 +567,13 @@ class Session(SessionRedirectMixin):
         adapter = self.get_adapter(url=request.url)
 
         # Start time (approximately) of the request
-        #start = datetime.utcnow()
-        start = datetime.utcnow(datetime(1,1,1))
+        start = datetime.utcnow()
 
         # Send the request
         r = adapter.send(request, **kwargs)
 
         # Total elapsed time of the request (approximately)
-        #r.elapsed = datetime.utcnow() - start
-        r.elapsed = datetime.utcnow(datetime(1,1,1)) - start
+        r.elapsed = datetime.utcnow() - start
 
         # Response manipulation hooks
         r = dispatch_hook('response', hooks, r, **kwargs)

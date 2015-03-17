@@ -109,7 +109,7 @@ def pip_version_check(session):
     try:
         state = load_selfcheck_statefile()
 
-        current_time = datetime.datetime.utcnow(datetime.datetime(1,1,1))
+        current_time = datetime.datetime.utcnow()
         pip_version = pkg_resources.parse_version(pip.__version__)
         return
 

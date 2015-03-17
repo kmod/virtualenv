@@ -1022,8 +1022,6 @@ class HTMLPage(object):
     def scraped_rel_links(self):
         # Can we get rid of this horrible horrible method?
         for regex in (self._homepage_re, self._download_re):
-            if self.content is None:
-                continue
             match = regex.search(self.content)
             if not match:
                 continue

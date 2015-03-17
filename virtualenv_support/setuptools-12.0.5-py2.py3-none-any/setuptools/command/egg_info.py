@@ -427,7 +427,7 @@ def write_setup_requirements(cmd, basename, filename):
 
 
 def write_toplevel_names(cmd, basename, filename):
-    pkgs = dict().fromkeys(
+    pkgs = dict.fromkeys(
         [
             k.split('.', 1)[0]
             for k in cmd.distribution.iter_distribution_names()
