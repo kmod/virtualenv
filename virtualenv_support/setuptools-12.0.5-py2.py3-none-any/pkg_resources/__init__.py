@@ -1784,9 +1784,7 @@ class MemoizedZipManifests(ZipManifests):
     Memoized zipfile manifests.
     """
 
-    manifest_mod = manifest_mod__
-
-    #manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
+    manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
 
     def load(self, path):
         """

@@ -1694,17 +1694,11 @@ class ZipManifests(dict):
 
     load = build
 
-def mynamedtuple(*args):
-    return lambda *args: args
-
-
 class MemoizedZipManifests(ZipManifests):
     """
     Memoized zipfile manifests.
     """
-    # Pyston change:
-    #manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
-    manifest_mod = mynamedtuple('manifest_mod', 'manifest mtime')
+    manifest_mod = collections.namedtuple('manifest_mod', 'manifest mtime')
 
     def load(self, path):
         """
@@ -2631,7 +2625,6 @@ class Distribution(object):
         # p is the spot where we found or inserted loc; now remove duplicates
         while True:
             try:
-                print type(npath), npath, nloc, p+1
                 _i = p+1
                 while _i < len(npath)+1:
                     if npath[_i] == nloc:

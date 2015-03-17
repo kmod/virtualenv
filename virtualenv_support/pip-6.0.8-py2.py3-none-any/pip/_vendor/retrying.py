@@ -188,11 +188,9 @@ class Retrying(object):
     def should_reject(self, attempt):
         reject = False
         if attempt.has_exception:
-            reject = reject | self._retry_on_exception(attempt.value[1])
-            #reject |= self._retry_on_exception(attempt.value[1])
+            reject |= self._retry_on_exception(attempt.value[1])
         else:
-            reject = reject | self._retry_on_result(attempt.value)
-            #reject |= self._retry_on_result(attempt.value)
+            reject |= self._retry_on_result(attempt.value)
 
         return reject
 
