@@ -52,8 +52,6 @@ def retry(*dargs, **dkw):
 
         return wrap
 
-def round(x):
-    return x
 
 class Retrying(object):
 
