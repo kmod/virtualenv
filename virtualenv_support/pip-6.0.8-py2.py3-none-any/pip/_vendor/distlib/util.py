@@ -11,7 +11,7 @@ import io
 import json
 import logging
 import os
-import py_compile
+#import py_compile
 import re
 import shutil
 import socket
@@ -1352,7 +1352,6 @@ if _ver_info == (2, 6):
             if port == 0:   # 0 means use port 0, not the default port
                 port = None
             self._setup(self._connection_class(host, port, **kwargs))
-
 
 class Transport(xmlrpclib.Transport):
     def __init__(self, timeout, use_datetime=0):

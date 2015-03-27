@@ -58,6 +58,7 @@ class VendorAlias(object):
                     m for m in sys.meta_path
                     if not isinstance(m, VendorAlias)
                 ]
+                print "-- importing", name
                 __import__(name)
                 module = sys.modules[name]
             finally:

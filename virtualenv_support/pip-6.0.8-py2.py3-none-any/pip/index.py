@@ -30,6 +30,8 @@ from pip._vendor import html5lib, requests, pkg_resources, six
 from pip._vendor.packaging.version import parse as parse_version
 from pip._vendor.requests.exceptions import SSLError
 
+import pip._vendor.requests
+
 
 __all__ = ['PackageFinder']
 
@@ -872,6 +874,7 @@ class HTMLPage(object):
                     "Cache-Control": "max-age=600",
                 },
             )
+
             resp.raise_for_status()
 
             # The check for archives above only works if the url ends with
@@ -887,7 +890,6 @@ class HTMLPage(object):
                     content_type,
                 )
                 return
-
             inst = cls(
                 resp.content, resp.url, resp.headers,
                 trusted=link.trusted,

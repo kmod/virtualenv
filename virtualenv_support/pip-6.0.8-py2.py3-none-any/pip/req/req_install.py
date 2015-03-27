@@ -390,11 +390,7 @@ def replacement_run(self):
             writer(self, ep.name, os.path.join(self.egg_info,ep.name))
     self.find_sources()
 egg_info.egg_info.run = replacement_run
-exec(compile(
-    getattr(tokenize, 'open', open)(__file__).read().replace('\\r\\n', '\\n'),
-    __file__,
-    'exec'
-))
+exec(getattr(tokenize, 'open', open)(__file__).read().replace('\\r\\n', '\\n'))
 """
 
     def egg_info_data(self, filename):
