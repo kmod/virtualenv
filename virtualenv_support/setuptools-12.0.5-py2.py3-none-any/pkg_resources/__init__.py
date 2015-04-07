@@ -1736,45 +1736,6 @@ class ZipManifests(dict):
 
     load = build
 
-import collections
-from operator import itemgetter as _itemgetter
-
-
-class manifest_mod__(tuple):
-    'manifest_mod(manifest, mtime)'
-    __slots__ = ()
-    _fields = ('manifest', 'mtime')
-    def __new__(_cls, manifest, mtime):
-        'Create new instance of manifest_mod(manifest, mtime)'
-        return tuple.__new__(_cls, (manifest, mtime))
-    @classmethod
-    def _make(cls, iterable, new=tuple.__new__, len=len):
-        'Make a new manifest_mod object from a sequence or iterable'
-        result = new(cls, iterable)
-        if len(result) != 2:
-            raise TypeError('Expected 2 arguments, got %d' % len(result))
-        return result
-    def __repr__(self):
-        'Return a nicely formatted representation string'
-        return 'manifest_mod(manifest=%r, mtime=%r)' % self
-    def _asdict(self):
-        'Return a new OrderedDict which maps field names to their values'
-        return collections.OrderedDict(zip(self._fields, self))
-    def _replace(_self, **kwds):
-        'Return a new manifest_mod object replacing specified fields with new values'
-        result = _self._make(map(kwds.pop, ('manifest', 'mtime'), _self))
-        if kwds:
-            raise ValueError('Got unexpected field names: %r' % kwds.keys())
-        return result
-    def __getnewargs__(self):
-        'Return self as a plain tuple.  Used by copy and pickle.'
-        return tuple(self)
-    __dict__ = property(_asdict)
-    def __getstate__(self):
-        'Exclude the OrderedDict from pickling'
-        pass
-    manifest = property(_itemgetter(0), doc='Alias for field number 0')
-    mtime = property(_itemgetter(1), doc='Alias for field number 1')
 
 class MemoizedZipManifests(ZipManifests):
     """
