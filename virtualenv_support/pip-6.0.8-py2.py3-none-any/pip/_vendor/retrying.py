@@ -192,7 +192,6 @@ class Retrying(object):
 
         return reject
 
-
     def call(self, fn, *args, **kwargs):
         start_time = int(round(time.time() * 1000))
         attempt_number = 1

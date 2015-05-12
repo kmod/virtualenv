@@ -154,7 +154,7 @@ class NotMyLock(UnlockError):
     """
     pass
 
-class LockBase(object):
+class LockBase:
     """Base class for platform-specific lock classes."""
     def __init__(self, path, threaded=True, timeout=None):
         """

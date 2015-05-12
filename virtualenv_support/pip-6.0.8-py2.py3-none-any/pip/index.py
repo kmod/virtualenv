@@ -30,8 +30,6 @@ from pip._vendor import html5lib, requests, pkg_resources, six
 from pip._vendor.packaging.version import parse as parse_version
 from pip._vendor.requests.exceptions import SSLError
 
-import pip._vendor.requests
-
 
 __all__ = ['PackageFinder']
 
@@ -867,13 +865,6 @@ class HTMLPage(object):
                 url = urllib_parse.urljoin(url, 'index.html')
                 logger.debug(' file: URL is directory, getting %s', url)
 
-
-            #session.setdefault('allow_redirects', True)
-            resp = pip._vendor.requests.get(url, headers={
-                    "Accept": "text/html",
-                    "Cache-Control": "max-age=600",
-                })
-            """
             resp = session.get(
                 url,
                 headers={
@@ -881,7 +872,6 @@ class HTMLPage(object):
                     "Cache-Control": "max-age=600",
                 },
             )
-            """
             resp.raise_for_status()
 
             # The check for archives above only works if the url ends with
@@ -897,24 +887,21 @@ class HTMLPage(object):
                     content_type,
                 )
                 return
+
             inst = cls(
                 resp.content, resp.url, resp.headers,
                 trusted=link.trusted,
             )
         except requests.HTTPError as exc:
-            print "requests.HTTPError", exc
             level = 2 if exc.response.status_code == 404 else 1
             cls._handle_fail(req, link, exc, url, level=level)
         except requests.ConnectionError as exc:
-            print "requests.ConnectionError", exc
             cls._handle_fail(
                 req, link, "connection error: %s" % exc, url,
             )
         except requests.Timeout:
-            print "requests.Timeout"
             cls._handle_fail(req, link, "timed out", url)
         except SSLError as exc:
-            print "requests.SSLError", exc
             reason = ("There was a problem confirming the ssl certificate: "
                       "%s" % exc)
             cls._handle_fail(

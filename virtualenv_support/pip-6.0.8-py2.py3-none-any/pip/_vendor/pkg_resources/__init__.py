@@ -1561,9 +1561,6 @@ class NullProvider:
         script_text = script_text.replace('\r', '\n')
         script_filename = self._fn(self.egg_info, script)
         namespace['__file__'] = script_filename
-        
-        # pyston change
-        """
         if os.path.exists(script_filename):
             source = open(script_filename).read()
             code = compile(source, script_filename, 'exec')
@@ -1575,9 +1572,7 @@ class NullProvider:
             )
             script_code = compile(script_text, script_filename,'exec')
             exec(script_code, namespace, namespace)
-        """
-        print "Not implemented!!!!"
-        raise NotImplemented
+
     def _has(self, path):
         raise NotImplementedError(
             "Can't perform this operation for unregistered loader type"
@@ -1693,6 +1688,7 @@ class ZipManifests(dict):
             return dict(items)
 
     load = build
+
 
 class MemoizedZipManifests(ZipManifests):
     """
@@ -2625,14 +2621,7 @@ class Distribution(object):
         # p is the spot where we found or inserted loc; now remove duplicates
         while True:
             try:
-                _i = p+1
-                while _i < len(npath)+1:
-                    if npath[_i] == nloc:
-                        np = _i
-                    _i = _i +1
-                #np = npath.index(nloc, p+1)
-            except IndexError:
-                break
+                np = npath.index(nloc, p+1)
             except ValueError:
                 break
             else:
@@ -2833,7 +2822,7 @@ def parse_requirements(strs):
         yield Requirement(project_name, specs, extras)
 
 
-class Requirement(object):
+class Requirement:
     def __init__(self, project_name, specs, extras):
         """DO NOT CALL THIS UNDOCUMENTED METHOD; use Requirement.parse()!"""
         self.unsafe_name, project_name = project_name, safe_name(project_name)
@@ -2892,12 +2881,8 @@ class Requirement(object):
 def _get_mro(cls):
     """Get an mro for a type or classic class"""
     if not isinstance(cls, type):
-        # class _cls(cls, object): pass
-        # class _cls(object, cls): pass
-        # return _cls.__mro__[1:]
-        class _cls(object, cls): pass
-        #print (_cls.__mro__[2], _cls.__mro__[1])
-        return (_cls.__mro__[2], _cls.__mro__[1])
+        class cls(cls, object): pass
+        return cls.__mro__[1:]
     return cls.__mro__
 
 def _find_adapter(registry, ob):

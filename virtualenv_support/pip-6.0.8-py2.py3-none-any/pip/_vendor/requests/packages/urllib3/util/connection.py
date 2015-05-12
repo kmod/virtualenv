@@ -37,7 +37,7 @@ def is_connection_dropped(conn):  # Platform-specific
     # This version is better on platforms that support it.
     p = poll()
     p.register(sock, POLLIN)
-    for (fno, ev) in p.poll(0):
+    for (fno, ev) in p.poll(0.0):
         if fno == sock.fileno():
             # Either data is buffered (bad), or the connection is dropped.
             return True
