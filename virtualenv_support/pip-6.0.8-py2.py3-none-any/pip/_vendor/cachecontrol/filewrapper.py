@@ -27,9 +27,8 @@ class CallbackFileWrapper(object):
         # self.__fp hasn't been set.
         #
         # [0] https://docs.python.org/2/reference/expressions.html#atom-identifiers
-        #fp = self.__getattribute__('_CallbackFileWrapper__fp')
-        #return getattr(fp, name)
-        return getattr(self.__fp, name)
+        fp = self.__getattribute__('_CallbackFileWrapper__fp')
+        return getattr(fp, name)
 
     def __is_fp_closed(self):
         try:

@@ -36,7 +36,7 @@ from pip._vendor.requests.packages import urllib3
 from pip._vendor.cachecontrol import CacheControlAdapter
 from pip._vendor.cachecontrol.caches import FileCache
 from pip._vendor.lockfile import LockError
-#from pip._vendor.six.moves import xmlrpc_client
+from pip._vendor.six.moves import xmlrpc_client
 
 
 __all__ = ['get_file_content',
@@ -394,7 +394,6 @@ def get_file_content(url, comes_from=None, session=None):
         else:
             # FIXME: catch some errors
             resp = session.get(url)
-            print "get_file_content", url, resp.content
             resp.raise_for_status()
 
             if six.PY3:
@@ -721,11 +720,11 @@ def unpack_file_url(link, location, download_dir=None):
     if download_dir and not already_downloaded_path:
         _copy_file(from_path, download_dir, content_type, link)
 
-"""
+
 class PipXmlrpcTransport(xmlrpc_client.Transport):
-    ""Provide a `xmlrpclib.Transport` implementation via a `PipSession`
+    """Provide a `xmlrpclib.Transport` implementation via a `PipSession`
     object.
-    ""
+    """
     def __init__(self, index_url, session, use_datetime=False):
         xmlrpc_client.Transport.__init__(self, use_datetime)
         index_parts = urllib_parse.urlparse(index_url)
@@ -748,7 +747,7 @@ class PipXmlrpcTransport(xmlrpc_client.Transport):
                 exc.response.status_code, url,
             )
             raise
-"""
+
 
 def unpack_url(link, location, download_dir=None,
                only_download=False, session=None):

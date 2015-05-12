@@ -851,7 +851,6 @@ def call_subprocess(cmd, show_stdout=True,
     else:
         stdout = subprocess.PIPE
     logger.debug("Running command %s" % cmd_desc)
-    print "with env", extra_env, cmd
     if extra_env or remove_from_env:
         env = os.environ.copy()
         if extra_env:
@@ -948,7 +947,6 @@ def install_wheel(project_names, py_executable, search_dirs=None):
     wheels = find_wheels(['setuptools', 'pip'], search_dirs)
     pythonpath = os.pathsep.join(wheels)
     findlinks = ' '.join(search_dirs)
-    pythonpath = pythonpath.replace(".whl", "/")
 
     cmd = [
         py_executable, '-c',

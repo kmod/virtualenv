@@ -33,7 +33,7 @@ if sys.version_info[0] < 3:
                          HTTPSHandler, HTTPHandler, HTTPRedirectHandler,
                          build_opener)
     import httplib
-    #import xmlrpclib
+    import xmlrpclib
     import Queue as queue
     from HTMLParser import HTMLParser
     import htmlentitydefs
@@ -71,7 +71,7 @@ else:
     from urllib.error import HTTPError, URLError, ContentTooShortError
     import http.client as httplib
     import urllib.request as urllib2
-    #import xmlrpc.client as xmlrpclib
+    import xmlrpc.client as xmlrpclib
     import queue
     from html.parser import HTMLParser
     import html.entities as htmlentitydefs
