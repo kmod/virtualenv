@@ -117,7 +117,6 @@ class bdist_egg(Command):
         old, self.distribution.data_files = self.distribution.data_files, []
 
         for item in old:
-            print "adding item to data files:", item
             if isinstance(item, tuple) and len(item) == 2:
                 if os.path.isabs(item[0]):
                     realpath = os.path.realpath(item[0])
