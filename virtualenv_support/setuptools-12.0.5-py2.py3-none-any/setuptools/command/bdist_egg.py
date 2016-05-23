@@ -426,9 +426,11 @@ def iter_symbols(code):
 
 
 def can_scan():
-    if not sys.platform.startswith('java') and sys.platform != 'cli':
-        # CPython, PyPy, etc.
-        return True
+    # pyston change: the analyze mechanism does not work for pyston (different bytecode). Return unsafe for now
+    # if not sys.platform.startswith('java') and sys.platform != 'cli':
+    #    # CPython, PyPy, etc.
+    #    return True
+
     log.warn("Unable to analyze compiled code on this platform.")
     log.warn("Please ask the author to include a 'zip_safe'"
              " setting (either True or False) in the package's setup.py")
