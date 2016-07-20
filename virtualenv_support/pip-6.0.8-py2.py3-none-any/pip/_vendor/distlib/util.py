@@ -11,7 +11,7 @@ import io
 import json
 import logging
 import os
-#import py_compile
+import py_compile
 import re
 import shutil
 import socket
